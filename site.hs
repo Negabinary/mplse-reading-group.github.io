@@ -4,18 +4,19 @@
 import Data.Monoid (mappend)
 
 import Data.Bifunctor
-import Data.ByteString.Char8 as B (ByteString, pack)
+import Data.ByteString.Char8 (ByteString, pack)
 import Data.Function
 import Data.List
 import Data.Maybe
 import Data.String
-import Data.Text.Lazy as T hiding (reverse)
-import Data.Text.Lazy.Encoding as T
+import Data.Text.Lazy hiding (reverse)
+import Data.Text.Lazy.Encoding
 import Hakyll
 import Hakyll.Process
 import Prelude hiding (FilePath)
 import Text.Pandoc.Options
-import qualified Text.Regex.PCRE.Light as PCRE
+import Text.Regex.Base.RegexLike (getAllTextSubmatches)
+import qualified Text.Regex.PCRE2 as PCRE
 
 --------------------------------------------------------------------------------
 main :: IO ()
@@ -59,15 +60,15 @@ main =
             compile $ do
               let indexCtx =
                     let comparator (x :: Identifier) (y :: Identifier) =
-                          let re :: PCRE.Regex =
-                                PCRE.compile
-                                  ("(\\d)+-(fall|winter|spring-summer)")
-                                  [] --[PCRE.caseless]
+                          let re :: ByteString =
+                                "(\\d)+-(fall|winter|spring-summer)"
                            in fromJust $ do
-                                xmatches :: [ByteString] <-
-                                  PCRE.match re (B.pack . show $ x) []
-                                ymatches :: [ByteString] <-
-                                  PCRE.match re (B.pack . show $ y) []
+                                xmatches <- Prelude.show x PCRE.=~~ re
+                                ymatches <- Prelude.show y PCRE.=~~ re
+                                let xm :: [String] =
+                                      getAllTextSubmatches xmatches
+                                let ym :: [String] =
+                                      getAllTextSubmatches ymatches
                                 -- HACK: We want to order the semesters as [winter, spring-summer, fall],
                                 -- but [fall, spring-summer, winter] is the normal lexicographical order.
                                 -- This hack is to avoid writing an explicit comparator.
@@ -76,14 +77,13 @@ main =
                                       | semester == "spring-summer" = "xab"
                                       | semester == "fall" = "xac"
                                 return
-                                  $ case (xmatches !! 1)
-                                           `compare` (ymatches !! 1) of
+                                  $ case (xm !! 1) `compare` (ym !! 1) of
                                       EQ ->
                                         let (d, d') =
                                               bimap
                                                 make_into_lexicographic_order
                                                 make_into_lexicographic_order
-                                                (xmatches !! 2, ymatches !! 2)
+                                                (xm !! 2, ym !! 2)
                                          in d `compare` d'
                                       c -> c
                      in (listField
@@ -106,7 +106,7 @@ main =
                 (execName "./schedule_yaml2html.pl")
                 [HakFilePath, ProcArg shouldReverse]
                 CStdOut
-                >>= return . fmap (T.unpack . T.decodeUtf8)
+                >>= return . fmap (unpack . decodeUtf8)
                 >>= loadAndApplyTemplate
                       "templates/schedule.html"
                       defaultContext

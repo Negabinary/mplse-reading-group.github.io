@@ -10,7 +10,8 @@ executable site
                   , hakyll-process
                   , pandoc
                   , text
-                  , pcre-light
+                  , regex-base
+                  , regex-pcre2
                   , bytestring
   ghc-options:      -threaded -rtsopts -with-rtsopts=-N
   default-language: GHC2024
