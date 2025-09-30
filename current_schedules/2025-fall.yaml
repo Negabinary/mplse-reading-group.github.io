@@ -1,0 +1,24 @@
+#-
+#  - Name
+#  - Date Time@Location
+#  - Title
+#  - "url"
+#  - >
+#    Abstract
+-
+  - Alexander Bandukwala
+  - October 10th, 3:30-5pm@4941 BBB
+  - "Incremental updates for efficient bidirectional transformations"
+  - "https://dl.acm.org/doi/10.1145/2034773.2034825"
+  - >
+    A bidirectional transformation is a pair of mappings between source and view data objects,
+    one in each direction. When the view is modified, the source is updated accordingly.
+    The key to handling large data objects that are subject to relatively small modifications
+    is to process the updates incrementally. Incrementality has been explored in the
+    semi-structured settings of relational databases and graph transformations; this
+    flexibility in structure makes it relatively easy to divide the data into separate 
+    parts that can be transformed and updated independently. The same is not true if the data 
+    is to be encoded with more general-purpose algebraic datatypes, with transformations defined
+    as functions: dividing data into well-typed separate parts is tricky, and recursions typically
+    create interdependencies. In this paper, we study transformations that support incremental updates,
+    and devise a constructive process to achieve this incrementality.
