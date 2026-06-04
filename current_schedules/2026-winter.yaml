@@ -43,12 +43,3 @@
     with continuous typechecking and direct value serialization,
     fundamentally rethinking how modern software development workflows
     operate.
--
-  - Matthew Keenan
-  - June 11th, 10-11:30am@4901 BBB
-  - "Isabelle: The next 700 theorem provers"
-  - "https://link.springer.com/article/10.1007/s00165-019-00492-1"
-  - >
-    We'll take a look at the design and history of the Isabelle 
-    proof assistant, how its philosophy differs to that of rocq/lean,
-    what it's strengths are, and why it never quite got the hype.
