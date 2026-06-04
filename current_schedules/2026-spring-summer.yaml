@@ -17,7 +17,7 @@
     The power of effects and handlers in AML is demonstrated by a standard library that provides default algorithms for equality checking, computation of normal forms, and implicit argument filling. Users can extend these new algorithms by providing local "hints" or by completely replacing these algorithms for particular developments. We demonstrate the resulting system by showing how to axiomatize and compute with natural numbers, by axiomatizing the untyped lambda-calculus, and by implementing a simple automated system for managing a universe of types.
 -
   - Matthew Keenan
-  - June 11th, 10-11:30am@4901 BBB
+  - June 25th, 10-11:30am@4901 BBB
   - "Isabelle: The next 700 theorem provers"
   - "https://link.springer.com/article/10.1007/s00165-019-00492-1"
   - >
